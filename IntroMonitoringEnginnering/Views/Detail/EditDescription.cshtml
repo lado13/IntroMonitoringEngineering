@@ -1,0 +1,21 @@
+﻿@using IntroMonitoringEngineering.ViewModel.Detail
+@model DetailViewModel
+
+@{
+    ViewData["Title"] = "Update Description";
+}
+
+<div class="container field">
+
+    <h2 >New Description</h2>
+
+    <form asp-action="UpdateDescription" asp-route-id="@Model.Id" method="post">
+        <div>
+            <textarea id="Description" name="Description" rows="4" cols="50" required>@Model.Description</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+
+
+
+</div>

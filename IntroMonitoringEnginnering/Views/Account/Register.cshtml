@@ -1,0 +1,37 @@
+﻿@using IntroMonitoringEngineering.ViewModel.Account
+@model RegisterVM
+
+<h2 class="text-light">Register</h2>
+
+<div class="container field w-25 description-text category-container auth">
+    <form asp-action="Register" method="post">
+        <div class="form-group">
+            <label asp-for="FullName" class="text-light"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="text-light"></label>
+            <input asp-for="Email" type="email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Username" class="text-light"></label>
+            <input asp-for="Username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="text-light"></label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RepeatPassword" class="text-light"></label>
+            <input asp-for="RepeatPassword" type="password" class="form-control" />
+            <span asp-validation-for="RepeatPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <input type="submit" value="Register" class="btn btn-primary" />
+        </div>
+    </form>
+</div>

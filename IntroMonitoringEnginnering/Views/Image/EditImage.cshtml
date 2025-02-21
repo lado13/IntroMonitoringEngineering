@@ -1,0 +1,45 @@
+﻿@using IntroMonitoringEngineering.ViewModel.Image
+@model EditImageViewModel
+
+@{
+    ViewData["Title"] = "Edit Image";
+}
+
+<h2 class="text-light">Edit Image</h2>
+
+<div class="container field w-25 description-text">
+
+    <form method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label asp-for="AltText" class="control-label text-light m-3"></label>
+            <input asp-for="AltText" class="form-control" />
+            <span asp-validation-for="AltText" class="text-danger"></span>
+           
+        </div>
+
+        <div class="form-group">
+            <label class="control-label text-light m-3">Current Image:</label>
+            <br />
+            <img src="@Url.Content(Model.CurrentImageUrl)" alt="@Model.AltText" width="150" />
+        </div>
+
+        <div class="form-group">
+            <label class="control-label text-light m-3" for="NewImage">Upload New Image</label>
+            <input type="file" class="form-control" id="NewImage" name="NewImage" />
+        </div>
+
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <input class="form-control" type="hidden" name="DetailId" value="@Model.DetailId" />
+
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+        <a href="@Url.Action("Details", "Context", new { id = Model.DetailId })" class="btn btn-secondary">Cancel</a>
+    </form>
+
+
+</div>
+
+
+
+

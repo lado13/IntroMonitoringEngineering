@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Global TV Info</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/IntroMonitoringEngineering.styles.css" asp-append-version="true" />
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon" />
+
+</head>
+<body>
+
+
+
+    @{
+        var categories = ViewBag.Categories as List<Category>;
+        var selectedCategory = ViewBag.SelectedCategory as Category;
+        var categoryInformation = ViewBag.Information as List<Detail>;
+    }
+  
+   
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black  box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Context" asp-action="Index">
+                    <i class="fa-solid fa-globe logo"></i>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <!-- Dropdown for Categories -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                კატეგორიები
+                            </a>
+                            <ul class="dropdown-menu drop-down p-4" aria-labelledby="navbarDropdown">
+                                @if (categories != null && categories.Any())
+                                {
+                                    foreach (var category in categories)
+                                    {
+
+                                        <div class="d-flex position-relative">
+
+                                            <div class="nav-item dropdown-category-container">
+                                                <a class="nav-link text-light" href="@Url.Action("Index", "Context", new { categoryId = category.Id })">
+                                                    @category.Title
+                                                </a>
+                                            </div>
+
+                                            <div class="d-flex position-absolute category-icon">
+
+
+                                        <li class="nav-item d-flex">
+                                                    @if (User.IsInRole("Admin"))
+                                                    {
+                                                <a class="nav-link text-dark" href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">
+                                                    <i class="fa-regular fa-pen-to-square edit"></i>
+                                                </a>
+
+                                                <a class="nav-link text-dark" href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">
+                                                    <i class="fa-solid fa-trash-can remove"></i>
+                                                </a>
+                                                    }
+                                        </li>
+
+
+                                            </div>
+
+
+
+
+                                        </div>
+
+
+                                    }
+                                }
+                                else
+                                {
+
+                                    <p class="text-danger">No categories available.</p>
+                                }
+                            </ul>
+                        </li>
+                       
+                        <li class="nav-item">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link create" asp-area="" asp-controller="Category" asp-action="Create">Create Category</a>
+                            }
+                        </li>
+                        <li class="nav-item">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link create" asp-area="" asp-controller="Detail" asp-action="Create">Create Info</a>
+                            }
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Context" asp-action="About">ჩვენს შესახებ</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Login and Register aligned to the right -->
+                    <ul class="navbar-nav ms-auto">
+                        
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link logged-info">გამარჯობა,   @User.Identity.Name</a>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="LogOut">გამოსვლა</a>
+                            </li>
+                            }
+                            else
+                            {
+
+                         @*    <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">ავტორიზაცია</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">რეგისტრაცია</a>
+                            </li> *@
+                                
+                            }
+                        </li>
+
+
+                      
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="dropdown mobile">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-layer-group"></i>
+        </button>
+        <ul class="dropdown-menu mobile-menu">
+
+            @if (categories != null && categories.Any())
+            {
+                foreach (var category in categories)
+                {
+
+                    <div class="d-flex position-relative">
+
+                        <div class="nav-item dropdown-category-container">
+                            <a class="nav-link text-light" href="@Url.Action("Index", "Context", new { categoryId = category.Id })">
+                                @category.Title
+                            </a>
+                        </div>
+
+                        <div class="d-flex position-absolute category-icon">
+
+
+                    <li class="nav-item d-flex">
+                                @if (User.IsInRole("Admin"))
+                                {
+                            <a class="nav-link text-dark" href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-warning">
+                                <i class="fa-regular fa-pen-to-square edit"></i>
+                            </a>
+
+                            <a class="nav-link text-dark" href="@Url.Action("Delete", "Category", new { id = category.Id })" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">
+                                <i class="fa-solid fa-trash-can remove"></i>
+                            </a>
+                                }
+                    </li>
+
+
+            </div>
+
+
+
+
+            </div>
+
+
+                }
+            }
+            else
+            {
+
+        <p class="text-danger">No categories available.</p>
+            }
+
+        </ul>
+    </div>
+
+
+
+    <div class="background">
+        <img class="space" src="/BGWallpaper/background.webp" />
+    @*     <div class="space">
+            <div class="galaxy-gas"></div>
+            <div class="earth">
+                <div class="cloud"></div>
+            </div> *@
+          @*   <div class="orbit">
+                <div class="satellite position-relative">
+                    <span class="text-light position-absolute satellite-text satellite-text1">
+                        Global <span class="satellite-text2">TV</span>
+                    </span>
+                </div> *@
+            @*     <div class="moon"></div>     </div> *@
+      @*       <div class="stars"></div> *@
+        </div> 
+
+    </div>
+
+
+
+    
+
+    <div class="container content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+
+    <footer class="footer text-muted container-fluid">
+        <div class="container">
+            <p class="footer-text m-0">&copy; 2024 - Qarva GLobal TV</p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/37be4015f2.js" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
